@@ -1,9 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 type Mode = "choose" | "sample" | "json" | "api";
+
+const EXTRACTION_STEPS = [
+  "Opening the case file...",
+  "Reading the first chapter...",
+  "Identifying suspects...",
+  "Mapping crime scenes...",
+  "Cataloging evidence...",
+  "Tracing motives...",
+  "Reconstructing the timeline...",
+  "Cross-referencing alibis...",
+  "Building the clue graph...",
+  "Connecting the dots...",
+  "Preparing the investigation...",
+];
+
+function ExtractionProgress() {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const stepTimer = setInterval(() => {
+      setStepIndex((i) => (i + 1) % EXTRACTION_STEPS.length);
+    }, 3500);
+    return () => clearInterval(stepTimer);
+  }, []);
+
+  useEffect(() => {
+    const dotTimer = setInterval(() => {
+      setDots((d) => (d.length >= 3 ? "" : d + "."));
+    }, 500);
+    return () => clearInterval(dotTimer);
+  }, []);
+
+  return (
+    <div className="mt-8 max-w-md">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        <span className="text-white font-medium">Extracting mystery{dots}</span>
+      </div>
+      <div className="space-y-2">
+        {EXTRACTION_STEPS.slice(0, stepIndex + 1).map((step, i) => (
+          <div
+            key={step}
+            className={`flex items-center gap-2 text-sm transition-opacity duration-500 ${
+              i === stepIndex ? "text-white" : "text-gray-600"
+            }`}
+          >
+            <span>{i < stepIndex ? "✓" : "›"}</span>
+            <span>{step}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ExtractPage() {
   const router = useRouter();
@@ -221,12 +276,7 @@ export default function ExtractPage() {
             )}
           </div>
 
-          {loading && (
-            <div className="mt-6 p-4 bg-gray-900 border border-gray-700 rounded-lg">
-              <p className="text-gray-300">Claude is reading the book and extracting the mystery structure...</p>
-              <p className="text-gray-500 text-sm mt-1">This may take a minute for longer texts.</p>
-            </div>
-          )}
+          {loading && <ExtractionProgress />}
         </div>
       )}
 
