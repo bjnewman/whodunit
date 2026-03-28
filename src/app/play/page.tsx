@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { Case, Character } from "@/lib/types";
-import { allCharacters } from "@/lib/types";
 import {
   createGameState,
   discoverClue,
@@ -59,21 +58,8 @@ export default function PlayPage() {
   );
   const score = getScore(caseData, gameState);
 
-  // Characters available to talk to at this location
-  const characterIdsHere = new Set(
-    caseData.clues
-      .filter((c) => c.location === currentLocation.id && c.linkedCharacter)
-      .map((c) => c.linkedCharacter!)
-  );
-  // Always include the detective + any characters linked to clues here
-  const talkableCharacters: Character[] = [];
-  const seen = new Set<string>();
-  for (const char of allCharacters(caseData)) {
-    if (!seen.has(char.id) && (char.id === caseData.detective.id || characterIdsHere.has(char.id))) {
-      talkableCharacters.push(char);
-      seen.add(char.id);
-    }
-  }
+  // All suspects + detective are always available for interrogation
+  const talkableCharacters: Character[] = [caseData.detective, ...caseData.suspects];
 
   function handleNavigate(locationId: string) {
     if (!gameState) return;
@@ -151,7 +137,6 @@ export default function PlayPage() {
         <div className="flex-1 p-6 overflow-y-auto border-r border-gray-800">
           <LocationPanel
             caseData={caseData}
-            state={gameState}
             location={currentLocation}
             onNavigate={handleNavigate}
           />
@@ -165,14 +150,10 @@ export default function PlayPage() {
 
       {/* Bottom: Question input */}
       <div className="px-6 py-4 border-t border-gray-800">
-        {talkableCharacters.length > 0 ? (
-          <QuestionInput
-            characters={talkableCharacters}
-            onAsk={handleAsk}
-          />
-        ) : (
-          <p className="text-gray-500 text-sm">No one to talk to here. Try another location.</p>
-        )}
+        <QuestionInput
+          characters={talkableCharacters}
+          onAsk={handleAsk}
+        />
       </div>
     </main>
   );
