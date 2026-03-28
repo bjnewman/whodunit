@@ -42,14 +42,15 @@ You MUST output valid JSON conforming to this exact schema:
 }
 
 Guidelines:
-- Extract 4-6 characters (major players only)
+- Characters MUST include: the detective/protagonist, the victim(s), and 4-6 suspects
+- The detective and victims can have secrets too (e.g. the detective was secretly investigating on their own, the victim had a hidden past)
+- Do NOT include the detective/protagonist as the culprit — but they MUST appear in the characters list
 - Extract 3-5 locations (key settings)
 - Extract 8-12 clues that form a logical investigation path
 - The "requires" fields should form a DAG — some clues available from the start, others unlocked by finding earlier clues
 - "keyClues" in the solution should be 4-6 of the most critical clues
 - Keywords should be intuitive words a player might type when investigating
 - Keep descriptions atmospheric and in-character
-- Do NOT include the detective/protagonist as the culprit
 - Every clue must belong to exactly one location
 - Every location's interactables must match the clue IDs assigned to it
 
