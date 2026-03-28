@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import type { Case, Character, Clue } from "@/lib/types";
 
+export const maxDuration = 30;
+
 interface AskRequest {
   question: string;
   characterId: string;
