@@ -4,11 +4,9 @@ import { useState, useEffect } from "react";
 import type { Case } from "@/lib/types";
 import {
   createGameState,
-  discoverClue,
   askQuestion,
   makeAccusation,
   getScore,
-  canDiscoverClue,
   type GameState,
 } from "@/lib/game-engine";
 import { LocationPanel } from "@/components/location-panel";
@@ -59,12 +57,6 @@ export default function PlayPage() {
   );
   const score = getScore(caseData, gameState);
 
-  function handleClickClue(clueId: string) {
-    if (!caseData || !gameState) return;
-    if (!canDiscoverClue(caseData, gameState, clueId)) return;
-    setGameState(discoverClue(gameState, clueId, caseData));
-  }
-
   function handleNavigate(locationId: string) {
     if (!gameState) return;
     setGameState({ ...gameState, currentLocation: locationId });
@@ -89,14 +81,8 @@ export default function PlayPage() {
         <h1 className="font-bold">{caseData.title}</h1>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-400">
-            Clues: {score.cluesFound}/{score.totalClues}
+            Clues: {score.cluesFound}
           </span>
-          <div className="w-32 h-2 bg-gray-800 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-green-500 transition-all"
-              style={{ width: `${(score.cluesFound / score.totalClues) * 100}%` }}
-            />
-          </div>
           <span className="text-sm text-gray-400">
             Questions: {score.questionsAsked}
           </span>
@@ -114,7 +100,6 @@ export default function PlayPage() {
             caseData={caseData}
             state={gameState}
             location={currentLocation}
-            onClickClue={handleClickClue}
             onNavigate={handleNavigate}
           />
         </div>

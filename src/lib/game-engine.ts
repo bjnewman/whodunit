@@ -85,7 +85,9 @@ export function askQuestion(
   question: string
 ): QuestionResult {
   const lowerQuestion = question.toLowerCase();
-  const available = getAvailableClues(caseData, state);
+  const available = getAvailableClues(caseData, state).filter(
+    (clue) => clue.location === state.currentLocation
+  );
   const matched: string[] = [];
 
   let newState = { ...state, questionsAsked: state.questionsAsked + 1 };

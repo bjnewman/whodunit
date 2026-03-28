@@ -104,8 +104,16 @@ describe("askQuestion", () => {
     expect(result.state.discoveredClues.has("clue-1")).toBe(true);
   });
 
-  it("matches across all available clues regardless of location", () => {
+  it("only matches clues at the current location", () => {
     const state = createGameState(miniCase);
+    // Player starts at loc-1, clue-3 is at loc-2
+    const result = askQuestion(miniCase, state, "I see a muddy footprint");
+    expect(result.discoveredClues).not.toContain("clue-3");
+  });
+
+  it("matches clues after navigating to the right location", () => {
+    let state = createGameState(miniCase);
+    state = { ...state, currentLocation: "loc-2" };
     const result = askQuestion(miniCase, state, "I see a muddy footprint");
     expect(result.discoveredClues).toContain("clue-3");
   });
