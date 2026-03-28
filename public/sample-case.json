@@ -1,0 +1,155 @@
+{
+  "title": "The Hound of the Baskervilles",
+  "summary": "Sir Charles Baskerville is found dead on the moor near his estate. A supernatural hound is said to curse the Baskerville family. Sherlock Holmes and Dr. Watson investigate, uncovering a plot by a distant relative to claim the inheritance.",
+  "solution": {
+    "culprit": "jack-stapleton",
+    "motive": "Stapleton is a secret Baskerville heir who wants to inherit the estate by killing off the other heirs.",
+    "method": "Trained a large hound and coated it with phosphorus to appear supernatural, using it to frighten Sir Charles to death and later to attack Sir Henry.",
+    "keyClues": ["phosphorus-jar", "stapleton-lineage", "boot-theft", "hound-howl", "grimpen-path"],
+    "explanation": "Jack Stapleton, posing as a naturalist neighbor, was in fact a Baskerville heir. He trained a massive hound, coated it with phosphorus to give it a ghostly glow, and used it to literally scare Sir Charles to death. He stole Sir Henry's boot to give the hound a scent. His wife, whom he forced to pose as his sister, nearly became another victim of his ruthless scheme."
+  },
+  "characters": [
+    {
+      "id": "sherlock-holmes",
+      "name": "Sherlock Holmes",
+      "description": "The famous consulting detective, engaged to investigate the Baskerville case.",
+      "secrets": ["Holmes has been secretly living on the moor in a stone hut, conducting his own parallel investigation."]
+    },
+    {
+      "id": "dr-watson",
+      "name": "Dr. Watson",
+      "description": "Holmes's trusted companion, sent to Baskerville Hall to observe and report.",
+      "secrets": []
+    },
+    {
+      "id": "sir-henry",
+      "name": "Sir Henry Baskerville",
+      "description": "The young heir who has arrived from Canada to claim Baskerville Hall.",
+      "secrets": ["Sir Henry has been receiving anonymous warnings to stay away from the moor."]
+    },
+    {
+      "id": "jack-stapleton",
+      "name": "Jack Stapleton",
+      "description": "A naturalist who lives at Merripit House on the moor, seemingly friendly and interested in butterflies.",
+      "secrets": ["Stapleton is actually a Baskerville — the son of Roger Baskerville, the youngest brother. He has a direct claim to the estate."]
+    },
+    {
+      "id": "beryl-stapleton",
+      "name": "Beryl Stapleton",
+      "description": "Introduced as Stapleton's sister, a beautiful woman who seems anxious around strangers.",
+      "secrets": ["Beryl is actually Stapleton's wife, not his sister. He forces her to pose as his sister so he can use her to lure Sir Henry."]
+    },
+    {
+      "id": "barrymore",
+      "name": "Mr. Barrymore",
+      "description": "The butler at Baskerville Hall, a loyal but secretive servant.",
+      "secrets": ["Barrymore has been signaling to someone on the moor at night with a candle — his wife's brother, the escaped convict Selden."]
+    }
+  ],
+  "locations": [
+    {
+      "id": "baskerville-hall",
+      "name": "Baskerville Hall",
+      "description": "A grand but gloomy manor house on the edge of the Dartmoor moor. Portraits of Baskerville ancestors line the dark corridors.",
+      "interactables": ["boot-theft", "barrymore-signal", "portrait-clue"]
+    },
+    {
+      "id": "grimpen-mire",
+      "name": "Grimpen Mire",
+      "description": "A vast, treacherous bog on the moor. One wrong step means being swallowed by the mud. Strange sounds echo across it at night.",
+      "interactables": ["grimpen-path", "hound-howl", "phosphorus-jar"]
+    },
+    {
+      "id": "merripit-house",
+      "name": "Merripit House",
+      "description": "Stapleton's modest residence near the mire. Butterfly nets and specimen cases fill the study.",
+      "interactables": ["stapleton-lineage", "beryl-warning"]
+    },
+    {
+      "id": "stone-hut",
+      "name": "Stone Hut on the Moor",
+      "description": "A crude prehistoric dwelling on the moor, seemingly abandoned. Empty tin cans and a blanket suggest someone has been living here recently.",
+      "interactables": ["holmes-hideout"]
+    }
+  ],
+  "clues": [
+    {
+      "id": "boot-theft",
+      "name": "The Missing Boot",
+      "description": "Sir Henry reports that one of his new boots was stolen from his hotel, then returned — but an older boot went missing instead. Why would someone want a worn boot?",
+      "keywords": ["boot", "shoe", "stolen", "missing", "scent", "smell"],
+      "requires": [],
+      "location": "baskerville-hall",
+      "linkedCharacter": "sir-henry"
+    },
+    {
+      "id": "barrymore-signal",
+      "name": "Barrymore's Midnight Signal",
+      "description": "You catch Barrymore holding a candle to the window late at night, moving it back and forth as if signaling someone out on the moor.",
+      "keywords": ["candle", "signal", "window", "night", "barrymore", "light"],
+      "requires": [],
+      "location": "baskerville-hall",
+      "linkedCharacter": "barrymore"
+    },
+    {
+      "id": "portrait-clue",
+      "name": "The Family Portrait",
+      "description": "A portrait of Hugo Baskerville bears a striking resemblance to someone you've met recently — if you cover the hat and wig, the face is unmistakably Stapleton's.",
+      "keywords": ["portrait", "painting", "hugo", "resemblance", "face", "ancestor"],
+      "requires": ["stapleton-lineage"],
+      "location": "baskerville-hall",
+      "linkedCharacter": "jack-stapleton"
+    },
+    {
+      "id": "hound-howl",
+      "name": "The Howling on the Moor",
+      "description": "A terrible howling echoes across the mire at night — not quite a dog, not quite natural. The locals whisper about the spectral hound of the Baskervilles.",
+      "keywords": ["howl", "howling", "sound", "cry", "hound", "dog", "night", "moor"],
+      "requires": [],
+      "location": "grimpen-mire"
+    },
+    {
+      "id": "grimpen-path",
+      "name": "The Secret Path Through the Mire",
+      "description": "You observe Stapleton navigating the deadly Grimpen Mire with confidence, following a path marked by hidden stakes. He must come here often — but why?",
+      "keywords": ["path", "trail", "stakes", "navigate", "mire", "bog", "swamp"],
+      "requires": ["hound-howl"],
+      "location": "grimpen-mire"
+    },
+    {
+      "id": "phosphorus-jar",
+      "name": "Jar of Phosphorus",
+      "description": "Hidden near the edge of the mire, you find a jar containing a luminous, foul-smelling paste. This is phosphorus — it would glow in the dark when applied to something... or someone.",
+      "keywords": ["phosphorus", "glow", "luminous", "paste", "jar", "shine", "paint", "ghost"],
+      "requires": ["grimpen-path"],
+      "location": "grimpen-mire"
+    },
+    {
+      "id": "stapleton-lineage",
+      "name": "Stapleton's True Identity",
+      "description": "Research into the Baskerville family tree reveals that Jack Stapleton is actually the son of Roger Baskerville, the youngest brother who was believed to have died unmarried in South America. Stapleton has a direct claim to the estate.",
+      "keywords": ["family", "tree", "lineage", "heir", "roger", "son", "relative", "inheritance"],
+      "requires": ["beryl-warning"],
+      "location": "merripit-house",
+      "linkedCharacter": "jack-stapleton"
+    },
+    {
+      "id": "beryl-warning",
+      "name": "Beryl's Whispered Warning",
+      "description": "Beryl Stapleton catches you alone and urgently whispers: 'Go back to London. Leave this place. For the love of God, do not go out on the moor at night.' Her eyes are full of genuine terror.",
+      "keywords": ["beryl", "warning", "whisper", "sister", "wife", "afraid", "terror", "danger"],
+      "requires": [],
+      "location": "merripit-house",
+      "linkedCharacter": "beryl-stapleton"
+    },
+    {
+      "id": "holmes-hideout",
+      "name": "Holmes's Secret Camp",
+      "description": "Inside the stone hut you find evidence of habitation: tinned food, fresh tobacco ash, and a note in familiar handwriting. Holmes has been here the whole time, watching from the shadows.",
+      "keywords": ["hut", "camp", "tobacco", "tin", "note", "hiding", "secret", "holmes"],
+      "requires": ["barrymore-signal"],
+      "location": "stone-hut",
+      "linkedCharacter": "sherlock-holmes"
+    }
+  ]
+}
