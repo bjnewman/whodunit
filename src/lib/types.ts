@@ -2,9 +2,15 @@ export interface Case {
   title: string;
   summary: string;
   solution: Solution;
-  characters: Character[];
+  detective: Character;
+  victims: Character[];
+  suspects: Character[];
   locations: Location[];
   clues: Clue[];
+}
+
+export function allCharacters(caseData: Case): Character[] {
+  return [caseData.detective, ...caseData.victims, ...caseData.suspects];
 }
 
 export interface Solution {

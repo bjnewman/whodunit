@@ -1,4 +1,5 @@
 import type { Case, Clue } from "./types";
+import { allCharacters } from "./types";
 
 export interface GameState {
   currentLocation: string;
@@ -62,7 +63,7 @@ export function discoverClue(state: GameState, clueId: string, caseData?: Case):
   if (caseData) {
     const clue = caseData.clues.find((c) => c.id === clueId);
     if (clue?.linkedCharacter) {
-      const character = caseData.characters.find(
+      const character = allCharacters(caseData).find(
         (ch) => ch.id === clue.linkedCharacter
       );
       if (character && character.secrets.length > 0) {

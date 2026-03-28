@@ -1,6 +1,7 @@
 "use client";
 
 import type { Case } from "@/lib/types";
+import { allCharacters } from "@/lib/types";
 import type { GameState } from "@/lib/game-engine";
 
 interface ClueJournalProps {
@@ -47,7 +48,7 @@ export function ClueJournal({ caseData, state }: ClueJournalProps) {
                 Secrets Revealed
               </h3>
               {Array.from(state.revealedSecrets.entries()).map(([charId, secrets]) => {
-                const character = caseData.characters.find((c) => c.id === charId);
+                const character = allCharacters(caseData).find((c) => c.id === charId);
                 return (
                   <div key={charId} className="p-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg mb-2">
                     <p className="font-medium text-sm text-yellow-400">{character?.name}</p>

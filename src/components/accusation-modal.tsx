@@ -46,7 +46,7 @@ export function AccusationModal({ caseData, onAccuse, score }: AccusationModalPr
               className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg mb-4 focus:outline-none focus:border-gray-500"
             >
               <option value="">Select a suspect...</option>
-              {caseData.characters.map((char) => (
+              {caseData.suspects.map((char) => (
                 <option key={char.id} value={char.id}>
                   {char.name}
                 </option>

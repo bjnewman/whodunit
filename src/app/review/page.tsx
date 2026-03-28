@@ -41,17 +41,30 @@ export default function ReviewPage() {
     }
   }
 
-  function updateCharacter(index: number, updated: Character) {
+  function updateSuspect(index: number, updated: Character) {
     if (!caseData) return;
-    const characters = [...caseData.characters];
-    characters[index] = updated;
-    setCaseData({ ...caseData, characters });
+    const suspects = [...caseData.suspects];
+    suspects[index] = updated;
+    setCaseData({ ...caseData, suspects });
   }
 
-  function removeCharacter(index: number) {
+  function removeSuspect(index: number) {
     if (!caseData) return;
-    const characters = caseData.characters.filter((_, i) => i !== index);
-    setCaseData({ ...caseData, characters });
+    const suspects = caseData.suspects.filter((_, i) => i !== index);
+    setCaseData({ ...caseData, suspects });
+  }
+
+  function updateVictim(index: number, updated: Character) {
+    if (!caseData) return;
+    const victims = [...caseData.victims];
+    victims[index] = updated;
+    setCaseData({ ...caseData, victims });
+  }
+
+  function removeVictim(index: number) {
+    if (!caseData) return;
+    const victims = caseData.victims.filter((_, i) => i !== index);
+    setCaseData({ ...caseData, victims });
   }
 
   function updateLocation(index: number, field: keyof Location, value: string | string[]) {
@@ -167,16 +180,41 @@ export default function ReviewPage() {
         </div>
       </section>
 
-      {/* Characters */}
+      {/* Detective */}
       <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4">Characters ({caseData.characters.length})</h2>
+        <h2 className="text-2xl font-bold mb-4">Detective</h2>
+        <CharacterCard
+          character={caseData.detective}
+          onChange={(updated) => setCaseData({ ...caseData, detective: updated })}
+          onRemove={() => {}}
+        />
+      </section>
+
+      {/* Victims */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4">Victims ({caseData.victims.length})</h2>
         <div className="grid gap-4">
-          {caseData.characters.map((char, i) => (
+          {caseData.victims.map((char, i) => (
             <CharacterCard
               key={char.id}
               character={char}
-              onChange={(updated) => updateCharacter(i, updated)}
-              onRemove={() => removeCharacter(i)}
+              onChange={(updated) => updateVictim(i, updated)}
+              onRemove={() => removeVictim(i)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Suspects */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4">Suspects ({caseData.suspects.length})</h2>
+        <div className="grid gap-4">
+          {caseData.suspects.map((char, i) => (
+            <CharacterCard
+              key={char.id}
+              character={char}
+              onChange={(updated) => updateSuspect(i, updated)}
+              onRemove={() => removeSuspect(i)}
             />
           ))}
         </div>

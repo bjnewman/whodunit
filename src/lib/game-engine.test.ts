@@ -20,7 +20,9 @@ const miniCase: Case = {
     keyClues: ["clue-1", "clue-3"],
     explanation: "Suspect A did it for the money.",
   },
-  characters: [
+  detective: { id: "detective", name: "Detective", description: "The investigator.", secrets: [] },
+  victims: [{ id: "victim", name: "Victim", description: "The deceased.", secrets: [] }],
+  suspects: [
     { id: "suspect-a", name: "Suspect A", description: "Shady person.", secrets: ["Secret A revealed."] },
     { id: "suspect-b", name: "Suspect B", description: "Friendly person.", secrets: [] },
   ],

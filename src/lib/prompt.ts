@@ -6,13 +6,27 @@ You MUST output valid JSON conforming to this exact schema:
   "title": "string — the book title",
   "summary": "string — one paragraph summary of the plot (this is hidden from the player)",
   "solution": {
-    "culprit": "string — character ID of the guilty party (lowercase-kebab-case)",
+    "culprit": "string — suspect ID of the guilty party (lowercase-kebab-case, must match an ID in suspects)",
     "motive": "string — why they did it",
     "method": "string — how they did it",
     "keyClues": ["array of clue IDs that are essential to solving the case"],
     "explanation": "string — the full reveal, shown after the player solves it"
   },
-  "characters": [
+  "detective": {
+    "id": "string — lowercase-kebab-case",
+    "name": "string — display name",
+    "description": "string — what the player knows about the detective upfront",
+    "secrets": ["strings — hidden info revealed when linked clues are found, e.g. secret investigations"]
+  },
+  "victims": [
+    {
+      "id": "string — lowercase-kebab-case",
+      "name": "string — display name",
+      "description": "string — what the player knows about the victim",
+      "secrets": ["strings — hidden info about the victim revealed by clues"]
+    }
+  ],
+  "suspects": [
     {
       "id": "string — lowercase-kebab-case",
       "name": "string — display name",
@@ -36,17 +50,17 @@ You MUST output valid JSON conforming to this exact schema:
       "keywords": ["5-8 lowercase words/phrases that should trigger discovery of this clue when the player types them"],
       "requires": ["clue IDs that must be discovered first — empty array if available from the start"],
       "location": "string — location ID where this clue is found",
-      "linkedCharacter": "string or omit — character ID whose secret is revealed by this clue"
+      "linkedCharacter": "string or omit — character ID (from detective, victims, OR suspects) whose secret is revealed by this clue"
     }
   ]
 }
 
 Guidelines:
-- Characters MUST include exactly 1 detective/protagonist and at least 5 suspects/persons of interest
-- Include the victim ONLY if they are alive for part of the story and have meaningful interactions — otherwise mention them in location descriptions instead
-- Only include 1 detective even if the book has multiple (e.g. include Holmes but not Watson, or pick the lead investigator)
-- The majority of characters should be plausible suspects to make the accusation challenging — if the book has fewer suspects, elevate minor characters into more prominent roles
-- Do NOT include the detective/protagonist as the culprit — but they MUST appear in the characters list
+- "detective" is exactly 1 character — the protagonist/investigator
+- "victims" are the people the crime was committed against (1-2 typically)
+- "suspects" are the people the player investigates and chooses between when making an accusation — include at least 5 to make it challenging
+- The culprit MUST be one of the suspects
+- If the book has fewer than 5 plausible suspects, elevate minor characters into more prominent roles
 - Extract 3-5 locations (key settings)
 - Extract 8-12 clues that form a logical investigation path
 - The "requires" fields should form a DAG — some clues available from the start, others unlocked by finding earlier clues

@@ -8,19 +8,21 @@
     "keyClues": ["phosphorus-jar", "stapleton-lineage", "boot-theft", "hound-howl", "grimpen-path"],
     "explanation": "Jack Stapleton, posing as a naturalist neighbor, was in fact a Baskerville heir. He trained a massive hound, coated it with phosphorus to give it a ghostly glow, and used it to literally scare Sir Charles to death. He stole Sir Henry's boot to give the hound a scent. His wife, whom he forced to pose as his sister, nearly became another victim of his ruthless scheme."
   },
-  "characters": [
+  "detective": {
+    "id": "sherlock-holmes",
+    "name": "Sherlock Holmes",
+    "description": "The famous consulting detective, engaged to investigate the Baskerville case.",
+    "secrets": ["Holmes has been secretly living on the moor in a stone hut, conducting his own parallel investigation."]
+  },
+  "victims": [
     {
-      "id": "sherlock-holmes",
-      "name": "Sherlock Holmes",
-      "description": "The famous consulting detective, engaged to investigate the Baskerville case.",
-      "secrets": ["Holmes has been secretly living on the moor in a stone hut, conducting his own parallel investigation."]
-    },
-    {
-      "id": "dr-watson",
-      "name": "Dr. Watson",
-      "description": "Holmes's trusted companion, sent to Baskerville Hall to observe and report.",
-      "secrets": []
-    },
+      "id": "sir-charles",
+      "name": "Sir Charles Baskerville",
+      "description": "The deceased owner of Baskerville Hall, found dead on the moor with an expression of terror on his face.",
+      "secrets": ["Sir Charles had been planning to leave the country the very next day, having been warned of danger."]
+    }
+  ],
+  "suspects": [
     {
       "id": "sir-henry",
       "name": "Sir Henry Baskerville",
@@ -44,6 +46,18 @@
       "name": "Mr. Barrymore",
       "description": "The butler at Baskerville Hall, a loyal but secretive servant.",
       "secrets": ["Barrymore has been signaling to someone on the moor at night with a candle — his wife's brother, the escaped convict Selden."]
+    },
+    {
+      "id": "dr-mortimer",
+      "name": "Dr. James Mortimer",
+      "description": "The Baskerville family physician who first brought the case to Holmes. A man of science with a keen interest in skulls.",
+      "secrets": ["Mortimer withheld key details about the night Sir Charles died, fearing they would sound too fantastical to be believed."]
+    },
+    {
+      "id": "selden",
+      "name": "Selden",
+      "description": "An escaped convict reportedly hiding somewhere on the moor. The locals live in fear of him.",
+      "secrets": ["Selden is Mrs. Barrymore's brother. The Barrymores have been secretly feeding and sheltering him."]
     }
   ],
   "locations": [
