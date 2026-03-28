@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { Case, Character, Location, Clue } from "@/lib/types";
+import { loadCase, saveCase } from "@/lib/case-storage";
 import { CharacterCard } from "@/components/character-card";
 
 export default function ReviewPage() {
@@ -13,32 +14,19 @@ export default function ReviewPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/case")
-      .then((res) => {
-        if (!res.ok) throw new Error("No case data found");
-        return res.json();
-      })
-      .then(setCaseData)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    const data = loadCase();
+    if (data) {
+      setCaseData(data);
+    } else {
+      setError("No case data found");
+    }
+    setLoading(false);
   }, []);
 
-  async function handleApprove() {
+  function handleApprove() {
     if (!caseData) return;
-    setSaving(true);
-    try {
-      const res = await fetch("/api/case", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(caseData),
-      });
-      if (!res.ok) throw new Error("Failed to save");
-      router.push("/play");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
-    } finally {
-      setSaving(false);
-    }
+    saveCase(caseData);
+    router.push("/play");
   }
 
   function updateSuspect(index: number, updated: Character) {

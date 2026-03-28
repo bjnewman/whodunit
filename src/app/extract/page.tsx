@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { saveCase } from "@/lib/case-storage";
 
 type Mode = "choose" | "sample" | "json" | "api";
 
@@ -68,13 +69,8 @@ export default function ExtractPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function saveAndRedirect(caseData: unknown) {
-    const res = await fetch("/api/case", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(caseData),
-    });
-    if (!res.ok) throw new Error("Failed to save case data");
+  function saveAndRedirect(caseData: unknown) {
+    saveCase(caseData as import("@/lib/types").Case);
     router.push("/review");
   }
 

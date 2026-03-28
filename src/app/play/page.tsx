@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Case, Character } from "@/lib/types";
+import { loadCase } from "@/lib/case-storage";
 import {
   createGameState,
   discoverClue,
@@ -22,17 +23,14 @@ export default function PlayPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/case")
-      .then((res) => {
-        if (!res.ok) throw new Error("No case data found");
-        return res.json();
-      })
-      .then((data: Case) => {
-        setCaseData(data);
-        setGameState(createGameState(data));
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    const data = loadCase();
+    if (data) {
+      setCaseData(data);
+      setGameState(createGameState(data));
+    } else {
+      setError("No case data found");
+    }
+    setLoading(false);
   }, []);
 
   if (loading) {
