@@ -15,6 +15,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Truncate to ~50k chars to stay within timeout limits
+    const truncated = bookText.slice(0, 50000);
+
     const client = new Anthropic();
 
     const message = await client.messages.create({
@@ -23,7 +26,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `${EXTRACTION_PROMPT}\n\nHere is the full text of the detective novel:\n\n${bookText}`,
+          content: `${EXTRACTION_PROMPT}\n\nHere is the text of the detective novel (may be truncated — extract what you can):\n\n${truncated}`,
         },
       ],
     });
