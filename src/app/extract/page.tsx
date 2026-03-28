@@ -184,8 +184,7 @@ export default function ExtractPage() {
           >
             <h3 className="text-lg font-semibold mb-1">Extract from Book</h3>
             <p className="text-gray-400 text-sm">
-              Upload a detective novel (.txt) and use the Claude API to extract a case.
-              <span className="text-yellow-500"> Requires ANTHROPIC_API_KEY.</span>
+              Upload a detective novel (.txt) and Claude will extract a playable case.
             </p>
           </button>
         </div>
@@ -233,12 +232,6 @@ export default function ExtractPage() {
           <button onClick={() => setMode("choose")} className="text-gray-400 hover:text-white text-sm mb-6">
             ← Back
           </button>
-
-          <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
-            <p className="text-yellow-400 text-sm">
-              This requires an ANTHROPIC_API_KEY environment variable to be set on the server.
-            </p>
-          </div>
 
           <div className="mb-6">
             <label className="block mb-2 text-sm font-medium">Upload a .txt file</label>
