@@ -15,7 +15,7 @@ export function CharacterCard({ character, onChange, onRemove }: CharacterCardPr
         <input
           value={character.name}
           onChange={(e) => onChange({ ...character, name: e.target.value })}
-          className="text-lg font-semibold bg-transparent border-b border-gray-600 focus:border-white focus:outline-none"
+          className="flex-1 min-w-0 text-lg font-semibold bg-transparent border-b border-gray-600 focus:border-white focus:outline-none"
         />
         <button onClick={onRemove} className="text-red-400 hover:text-red-300 text-sm">
           Remove
@@ -26,7 +26,7 @@ export function CharacterCard({ character, onChange, onRemove }: CharacterCardPr
       <textarea
         value={character.description}
         onChange={(e) => onChange({ ...character, description: e.target.value })}
-        rows={2}
+        rows={3}
         className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm resize-y focus:outline-none focus:border-gray-500"
       />
       <label className="block text-xs text-gray-500 mb-1 mt-3">Secrets (one per line)</label>
@@ -35,7 +35,7 @@ export function CharacterCard({ character, onChange, onRemove }: CharacterCardPr
         onChange={(e) =>
           onChange({ ...character, secrets: e.target.value.split("\n").filter(Boolean) })
         }
-        rows={2}
+        rows={3}
         className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm resize-y focus:outline-none focus:border-gray-500"
       />
     </div>

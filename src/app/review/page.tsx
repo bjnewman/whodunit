@@ -229,7 +229,7 @@ export default function ReviewPage() {
               <input
                 value={loc.name}
                 onChange={(e) => updateLocation(i, "name", e.target.value)}
-                className="text-lg font-semibold bg-transparent border-b border-gray-600 focus:border-white focus:outline-none mb-2"
+                className="w-full text-lg font-semibold bg-transparent border-b border-gray-600 focus:border-white focus:outline-none mb-2"
               />
               <label className="block text-xs text-gray-500 mb-1">ID: {loc.id}</label>
               <label className="block text-xs text-gray-500 mb-1 mt-2">Description</label>
@@ -261,7 +261,7 @@ export default function ReviewPage() {
               <input
                 value={clue.name}
                 onChange={(e) => updateClue(i, "name", e.target.value)}
-                className="text-lg font-semibold bg-transparent border-b border-gray-600 focus:border-white focus:outline-none mb-2"
+                className="w-full text-lg font-semibold bg-transparent border-b border-gray-600 focus:border-white focus:outline-none mb-2"
               />
               <label className="block text-xs text-gray-500 mb-1">ID: {clue.id} | Location: {clue.location}</label>
               <label className="block text-xs text-gray-500 mb-1 mt-2">Description</label>
