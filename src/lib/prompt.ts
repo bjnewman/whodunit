@@ -42,8 +42,10 @@ You MUST output valid JSON conforming to this exact schema:
 }
 
 Guidelines:
-- Characters MUST include: the detective/protagonist, the victim(s), and 4-6 suspects
-- The detective and victims can have secrets too (e.g. the detective was secretly investigating on their own, the victim had a hidden past)
+- Characters MUST include exactly 1 detective/protagonist and at least 5 suspects/persons of interest
+- Include the victim ONLY if they are alive for part of the story and have meaningful interactions — otherwise mention them in location descriptions instead
+- Only include 1 detective even if the book has multiple (e.g. include Holmes but not Watson, or pick the lead investigator)
+- The majority of characters should be plausible suspects to make the accusation challenging — if the book has fewer suspects, elevate minor characters into more prominent roles
 - Do NOT include the detective/protagonist as the culprit — but they MUST appear in the characters list
 - Extract 3-5 locations (key settings)
 - Extract 8-12 clues that form a logical investigation path
