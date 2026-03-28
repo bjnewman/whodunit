@@ -79,33 +79,17 @@ export function discoverClue(state: GameState, clueId: string, caseData?: Case):
   };
 }
 
-export function askQuestion(
+/** Apply clue discoveries from an external source (e.g. Claude API response) */
+export function applyDiscoveries(
   caseData: Case,
   state: GameState,
-  question: string
-): QuestionResult {
-  const lowerQuestion = question.toLowerCase();
-  const available = getAvailableClues(caseData, state).filter(
-    (clue) => clue.location === state.currentLocation
-  );
-  const matched: string[] = [];
-
+  clueIds: string[]
+): GameState {
   let newState = { ...state, questionsAsked: state.questionsAsked + 1 };
-
-  for (const clue of available) {
-    const hit = clue.keywords.some((kw) => lowerQuestion.includes(kw.toLowerCase()));
-    if (hit) {
-      matched.push(clue.id);
-      newState = discoverClue(newState, clue.id, caseData);
-    }
+  for (const clueId of clueIds) {
+    newState = discoverClue(newState, clueId, caseData);
   }
-
-  const message =
-    matched.length > 0
-      ? `You discovered: ${matched.map((id) => caseData.clues.find((c) => c.id === id)?.name).join(", ")}`
-      : "Your investigation turned up nothing new.";
-
-  return { state: newState, discoveredClues: matched, message };
+  return newState;
 }
 
 export function makeAccusation(

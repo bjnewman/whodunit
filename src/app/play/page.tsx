@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { Case } from "@/lib/types";
+import type { Case, Character } from "@/lib/types";
+import { allCharacters } from "@/lib/types";
 import {
   createGameState,
-  askQuestion,
+  discoverClue,
+  getAvailableClues,
   makeAccusation,
   getScore,
   type GameState,
@@ -57,16 +59,67 @@ export default function PlayPage() {
   );
   const score = getScore(caseData, gameState);
 
+  // Characters available to talk to at this location
+  const characterIdsHere = new Set(
+    caseData.clues
+      .filter((c) => c.location === currentLocation.id && c.linkedCharacter)
+      .map((c) => c.linkedCharacter!)
+  );
+  // Always include the detective + any characters linked to clues here
+  const talkableCharacters: Character[] = [];
+  const seen = new Set<string>();
+  for (const char of allCharacters(caseData)) {
+    if (!seen.has(char.id) && (char.id === caseData.detective.id || characterIdsHere.has(char.id))) {
+      talkableCharacters.push(char);
+      seen.add(char.id);
+    }
+  }
+
   function handleNavigate(locationId: string) {
     if (!gameState) return;
     setGameState({ ...gameState, currentLocation: locationId });
   }
 
-  function handleAsk(question: string): string {
-    if (!caseData || !gameState) return "";
-    const result = askQuestion(caseData, gameState, question);
-    setGameState(result.state);
-    return result.message;
+  async function handleAsk(characterId: string, question: string): Promise<{ dialogue: string; clueNames: string[] }> {
+    if (!caseData || !gameState) return { dialogue: "", clueNames: [] };
+
+    const availableAtLocation = getAvailableClues(caseData, gameState).filter(
+      (c) => c.location === gameState.currentLocation
+    );
+
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question,
+        characterId,
+        caseData,
+        currentLocation: gameState.currentLocation,
+        discoveredClueIds: Array.from(gameState.discoveredClues),
+        availableClueIds: availableAtLocation.map((c) => c.id),
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      return { dialogue: err.error || "Something went wrong.", clueNames: [] };
+    }
+
+    const { dialogue, triggeredClueIds } = await res.json();
+
+    // Update game state with any discovered clues
+    let newState: GameState = { ...gameState, questionsAsked: gameState.questionsAsked + 1 };
+    const clueNames: string[] = [];
+
+    for (const clueId of triggeredClueIds) {
+      newState = discoverClue(newState, clueId, caseData);
+      const clue = caseData.clues.find((c) => c.id === clueId);
+      if (clue) clueNames.push(clue.name);
+    }
+
+    setGameState(newState);
+
+    return { dialogue, clueNames };
   }
 
   function handleAccuse(culpritId: string) {
@@ -112,7 +165,14 @@ export default function PlayPage() {
 
       {/* Bottom: Question input */}
       <div className="px-6 py-4 border-t border-gray-800">
-        <QuestionInput onAsk={handleAsk} />
+        {talkableCharacters.length > 0 ? (
+          <QuestionInput
+            characters={talkableCharacters}
+            onAsk={handleAsk}
+          />
+        ) : (
+          <p className="text-gray-500 text-sm">No one to talk to here. Try another location.</p>
+        )}
       </div>
     </main>
   );

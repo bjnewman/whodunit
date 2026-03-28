@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   createGameState,
   discoverClue,
-  askQuestion,
+  applyDiscoveries,
   canDiscoverClue,
   makeAccusation,
   getAvailableClues,
@@ -95,47 +95,34 @@ describe("discoverClue", () => {
   });
 });
 
-describe("askQuestion", () => {
-  it("matches keyword and discovers the clue", () => {
+describe("applyDiscoveries", () => {
+  it("discovers specified clues and increments question count", () => {
     const state = createGameState(miniCase);
-    const result = askQuestion(miniCase, state, "Is there a knife here?");
-    expect(result.discoveredClues).toContain("clue-1");
-    expect(result.state.questionsAsked).toBe(1);
-    expect(result.state.discoveredClues.has("clue-1")).toBe(true);
+    const newState = applyDiscoveries(miniCase, state, ["clue-1"]);
+    expect(newState.discoveredClues.has("clue-1")).toBe(true);
+    expect(newState.questionsAsked).toBe(1);
   });
 
-  it("only matches clues at the current location", () => {
+  it("discovers multiple clues at once", () => {
     const state = createGameState(miniCase);
-    // Player starts at loc-1, clue-3 is at loc-2
-    const result = askQuestion(miniCase, state, "I see a muddy footprint");
-    expect(result.discoveredClues).not.toContain("clue-3");
+    const newState = applyDiscoveries(miniCase, state, ["clue-1", "clue-3"]);
+    expect(newState.discoveredClues.has("clue-1")).toBe(true);
+    expect(newState.discoveredClues.has("clue-3")).toBe(true);
+    expect(newState.questionsAsked).toBe(1);
   });
 
-  it("matches clues after navigating to the right location", () => {
-    let state = createGameState(miniCase);
-    state = { ...state, currentLocation: "loc-2" };
-    const result = askQuestion(miniCase, state, "I see a muddy footprint");
-    expect(result.discoveredClues).toContain("clue-3");
-  });
-
-  it("returns no clues for unmatched question", () => {
-    const state = createGameState(miniCase);
-    const result = askQuestion(miniCase, state, "What about the weather?");
-    expect(result.discoveredClues).toEqual([]);
-    expect(result.state.questionsAsked).toBe(1);
-  });
-
-  it("does not re-discover already found clues", () => {
+  it("reveals linked character secrets", () => {
     let state = createGameState(miniCase);
     state = discoverClue(state, "clue-1", miniCase);
-    const result = askQuestion(miniCase, state, "knife");
-    expect(result.discoveredClues).toEqual([]);
+    const newState = applyDiscoveries(miniCase, state, ["clue-2"]);
+    expect(newState.revealedSecrets.get("suspect-a")).toEqual(["Secret A revealed."]);
   });
 
-  it("does not discover clues with unmet requirements", () => {
+  it("handles empty clue array (no discoveries)", () => {
     const state = createGameState(miniCase);
-    const result = askQuestion(miniCase, state, "threatening note");
-    expect(result.discoveredClues).not.toContain("clue-2");
+    const newState = applyDiscoveries(miniCase, state, []);
+    expect(newState.discoveredClues.size).toBe(0);
+    expect(newState.questionsAsked).toBe(1);
   });
 });
 
